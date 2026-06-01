@@ -1,4 +1,4 @@
-````md
+
 # Webpack Configuration Study
 
 Projeto criado para estudar e configurar o Webpack manualmente em uma aplicação React, entendendo como funciona o processo de bundle, loaders, plugins e desenvolvimento local.

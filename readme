@@ -1,0 +1,346 @@
+````md
+# Webpack Configuration Study
+
+Projeto criado para estudar e configurar o Webpack manualmente em uma aplicação React, entendendo como funciona o processo de bundle, loaders, plugins e desenvolvimento local.
+
+## Objetivo
+
+O objetivo desse projeto foi aprender na prática como o Webpack funciona internamente, sem utilizar ferramentas prontas como Vite ou Create React App.
+
+Durante o desenvolvimento configurei manualmente:
+
+- Webpack
+- Babel
+- Loaders
+- Plugins
+- Dev Server
+- Bundle da aplicação
+- Processamento de JSX
+- Estrutura básica de build
+
+---
+
+# O que entendi sobre o Webpack
+
+O Webpack funciona como um empacotador de módulos (module bundler).
+
+Ele entra no arquivo definido no `entry`, analisa todos os imports da aplicação e cria um bundle final com tudo conectado.
+
+Exemplo:
+
+```js
+import App from "./App";
+````
+
+O Webpack entra no App, depois verifica os imports do App, e assim sucessivamente até montar toda a árvore da aplicação.
+
+No final ele gera um bundle final JavaScript que será executado no navegador.
+
+---
+
+
+# Explicando o webpack.config.js
+
+## Importando o HtmlWebpackPlugin
+
+```js
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+```
+
+O HtmlWebpackPlugin pega o HTML principal da aplicação e injeta automaticamente o bundle JavaScript gerado pelo Webpack.
+
+Sem isso seria necessário adicionar o script manualmente.
+
+---
+
+## Importando o path
+
+```js
+const path = require("path");
+```
+
+O `path` é um módulo nativo do Node.js usado para trabalhar com caminhos de pastas e arquivos.
+
+Ele ajuda o projeto a funcionar corretamente tanto no Windows quanto no Linux.
+
+---
+
+## module.exports
+
+```js
+module.exports = {
+```
+
+Aqui definimos toda a configuração do Webpack.
+
+---
+
+## Mode
+
+```js
+mode: "development",
+```
+
+O modo development deixa o código mais fácil de debugar.
+
+Ele:
+
+* mostra erros detalhados
+* mantém o código mais legível
+* gera builds mais rápidos
+
+Já o modo production:
+
+* comprime o bundle
+* otimiza o código
+* deixa o build menor e mais performático
+
+---
+
+## Entry
+
+```js
+entry: "./src/index.js",
+```
+
+O `entry` define por onde o Webpack vai começar a analisar a aplicação.
+
+Nesse caso:
+
+* o Webpack entra no `index.js`
+* verifica todos os imports
+* monta toda a árvore de dependências
+* gera o bundle final
+
+---
+
+## Output
+
+```js
+output: {
+  path: path.resolve(__dirname, "dist"),
+  filename: "main.js",
+  clean: true,
+},
+```
+
+O `output` define como será o resultado final do bundle.
+
+### path
+
+```js
+path: path.resolve(__dirname, "dist")
+```
+
+Define que o build final será gerado dentro da pasta `dist`.
+
+### filename
+
+```js
+filename: "main.js"
+```
+
+Define o nome do bundle final gerado pelo Webpack.
+
+### clean
+
+```js
+clean: true
+```
+
+Limpa automaticamente a pasta `dist` antes de gerar um novo build.
+
+---
+
+# Module Rules
+
+```js
+module: {
+  rules: []
+}
+```
+
+Aqui definimos regras para o Webpack processar diferentes tipos de arquivos.
+
+---
+
+## Babel Loader
+
+```js
+{
+  test: /\.(js|jsx)$/,
+  exclude: /node_modules/,
+  use: {
+    loader: "babel-loader",
+  },
+}
+```
+
+Essa regra diz:
+
+Quando o Webpack encontrar arquivos:
+
+* `.js`
+* `.jsx`
+
+ele deve usar o `babel-loader`.
+
+O Babel converte:
+
+* JavaScript moderno
+* JSX do React
+
+para um código que os navegadores conseguem entender.
+
+### exclude
+
+```js
+exclude: /node_modules/
+```
+
+Evita processar dependências externas.
+
+---
+
+## HTML Loader
+
+```js
+{
+  test: /\.html$/,
+  use: {
+    loader: "html-loader",
+  },
+}
+```
+
+Permite que o Webpack consiga trabalhar corretamente com arquivos HTML.
+
+---
+
+# Plugins
+
+```js
+plugins: []
+```
+
+Plugins adicionam funcionalidades extras ao Webpack.
+
+O Webpack sozinho apenas empacota arquivos.
+
+---
+
+## HtmlWebpackPlugin
+
+```js
+new HtmlWebpackPlugin({
+  template: "./public/index.html",
+  filename: "index.html",
+})
+```
+
+Esse plugin:
+
+* pega o HTML base
+* injeta automaticamente o bundle
+* gera o HTML final dentro da pasta dist
+
+---
+
+# Dev Server
+
+```js
+devServer: {
+  static: "./dist",
+  port: 8081,
+  open: true,
+},
+```
+
+O `webpack-dev-server` cria um servidor local para desenvolvimento.
+
+### static
+
+```js
+static: "./dist"
+```
+
+Define qual pasta será servida.
+
+### port
+
+```js
+port: 8081
+```
+
+Define a porta da aplicação.
+
+### open
+
+```js
+open: true
+```
+
+Abre automaticamente o navegador quando o servidor inicia.
+
+---
+
+# Resolve
+
+```js
+resolve: {
+  extensions: [".js", ".jsx"],
+},
+```
+
+Permite importar arquivos sem precisar escrever a extensão.
+
+Exemplo:
+
+```js
+import App from "./App";
+```
+
+ao invés de:
+
+```js
+import App from "./App.jsx";
+```
+
+---
+
+# Resultado Final
+
+Ao finalizar a configuração:
+
+* o Webpack gera o bundle da aplicação
+* o React JSX é convertido pelo Babel
+* o HTML é gerado automaticamente
+* o servidor local sobe automaticamente
+
+---
+
+# Tecnologias utilizadas
+
+* React
+* Webpack
+* Babel
+* Babel Loader
+* HtmlWebpackPlugin
+* Webpack Dev Server
+
+---
+
+# Aprendizados
+
+Com esse projeto consegui entender:
+
+* como o Webpack funciona internamente
+* como o bundle é criado
+* como loaders funcionam
+* como plugins adicionam funcionalidades
+* como o Babel transpila JSX
+* como o Dev Server funciona
+* como o Webpack organiza toda a aplicação
+
+```
+```
